@@ -30,113 +30,122 @@ struct DLinkedNode
 
 class LRUCache
 {
+
 private:
     int capacity;
     int used;
-    DLinkedNode *head;
-    DLinkedNode *tail;
-    std::unordered_map<int, DLinkedNode*> hashTable;
+    DLinkedNode* dummy;
+    std::unordered_map<int, DLinkedNode*> cacheMap;
 
 public:
-    LRUCache(int capacity)
+    LRUCache(int capacity):capacity(capacity), used(0)
     {
-        this->capacity = capacity;
-        this->used = 0;
-        this->head = nullptr;
-        this->tail = nullptr;
+        dummy = new DLinkedNode(0, 0);
+        //即是头也是尾
+        dummy -> next = dummy;
+        dummy -> pre = dummy;
     }
 
+    /**
+     * 获取缓存
+     * 根据key获取value
+     * 通过hash表判断是否存在该key 存在就获取该点
+     *  1.获取hash表的节点
+     *  2.断开原来节点的pre和next
+     *  3.将该点移动到head位置
+     * 
+     * 不存在就返回-1
+     */
     int get(int key)
     {
-        if (hashTable.find(key) != hashTable.end())
+        if (cacheMap.find(key) != cacheMap.end())
         {
             // 修改当前节点的指针
-            DLinkedNode *node = hashTable[key];
-
+            DLinkedNode* node = cacheMap[key];
+            //断开原来节点的pre和next
             removeNode(node);
-            moveHead(node);
+            //将该点移动到head位置
+            addToHead(node);
+
             return node -> value;
         }
-        else
-        {
-            return -1;
-        }
+        return -1;
     }
 
+    /**
+     * 传入key和value 更新缓存
+     * 
+     * 判断是否存在该key
+     * 1.不存在就添加
+     * 1.1 判断是否已满
+     *  1.1.1 未满
+     *  直接添加该点到头部
+     *  更新hash表
+     * 
+     *  1.1.2 已满
+     *  上述尾节点，从hash表中移除
+     *  添加新节点到头部，添加hash表
+     * 
+     * 2. 存在就更新值 移动头位置
+     * 断开该节点原有链接
+     * 添加节点到头部
+     * 
+     */
     void put(int key, int value)
     {
-        DLinkedNode *node = nullptr;
-        if (hashTable.find(key) != hashTable.end())
+        if (cacheMap.find(key) != cacheMap.end())
         {
-            node = hashTable[key];
-            //更新值
-            node->key = key;
-            node->value = value;
-            //移除该节点
+            DLinkedNode* node = cacheMap[key];
+            //断开原来节点的pre和next
             removeNode(node);
-
-            //移动头位置
-            moveHead(node);
+            //将该点移动到head位置
+            addToHead(node);
         }
         else
         {
             if (used >= capacity)
             {
-                // 删除hash表
-                DLinkedNode *node = hashTable[key];
-                hashTable.erase(key);
-                
-                removeNode(node);
+                // 删除hash表 和 尾部点
+                DLinkedNode *tail = dummy->pre;
+                cacheMap.erase(tail->key);
+                delete tail;
+
+                //尾部移除
+                DLinkedNode* node = new DLinkedNode(key, value);
                 // 更新新节点位置
-                moveHead(node);
+                cacheMap[key] = node;
+                addToHead(node);
             }
             else
             {
-                node = new DLinkedNode(key, value);
-                if (tail == nullptr)
-                {
-                    tail = node;
-                }
-                else
-                {
-                    tail->next = node;
-                    node->pre = tail;
-
-                    if (head == nullptr)
-                    {
-                        head = node;
-                    }
-                    else
-                    {
-                        head->pre = node;
-                        node->next = head;
-                        head = node;
-                    }
-                }
+                DLinkedNode* node = new DLinkedNode(key, value);
+                cacheMap[key] = node;
+                addToHead(node);
                 used++;
             }
         }
-
-        // 更新 key 的位置
-        hashTable[node->key] = head;
     }
 
+    /**
+     * 断开节点链路
+     */
     void removeNode(DLinkedNode *node) {
         node->pre->next = node -> next;
         node->next->pre = node -> pre;
-        delete node;
     }
 
-    void moveHead(DLinkedNode *node) {
+
+    void addToHead(DLinkedNode *node) {
         //移动到头部
-        tail->next = node;
-        node->pre = tail;
+        DLinkedNode* temp = dummy->next;
+        temp->pre = node;
+        dummy->next = node;
 
-        node->next = head;
-        head->pre = node;
-
-        head = node;
+        node->next = temp;
+        node->pre = dummy;
+        
     }
+
 };
 
 int main()
