@@ -1,5 +1,7 @@
 /**
- * link: https://leetcode.cn/problems/OrIXps/description/
+ * link: 
+ * https://leetcode.cn/problems/OrIXps/description/
+ * https://leetcode.cn/problems/lru-cache/description/
 *
 示例：
 输入
