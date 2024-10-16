@@ -96,6 +96,7 @@ public:
         if (cacheMap.find(key) != cacheMap.end())
         {
             DLinkedNode* node = cacheMap[key];
+            node->value = value;
             //断开原来节点的pre和next
             removeNode(node);
             //将该点移动到head位置
@@ -106,15 +107,21 @@ public:
             if (used >= capacity)
             {
                 // 删除hash表 和 尾部点
-                DLinkedNode *tail = dummy->pre;
-                cacheMap.erase(tail->key);
-                delete tail;
+                DLinkedNode *node = dummy->pre;
+                cacheMap.erase(node->key);
+                std::cout << " 淘汰: " << node->key << std::endl;
+                // delete tail;
 
-                //尾部移除
-                DLinkedNode* node = new DLinkedNode(key, value);
+                // //尾部移除
+                // DLinkedNode* node = new DLinkedNode(key, value);
                 // 更新新节点位置
                 cacheMap[key] = node;
+                node->key = key;
+                node->value = value;
+                removeNode(node);
                 addToHead(node);
+                
+                
             }
             else
             {
@@ -122,6 +129,9 @@ public:
                 cacheMap[key] = node;
                 addToHead(node);
                 used++;
+
+
+                 std::cout << " 放入: " << node->key << std::endl;
             }
         }
     }
@@ -137,12 +147,10 @@ public:
 
     void addToHead(DLinkedNode *node) {
         //移动到头部
-        DLinkedNode* temp = dummy->next;
-        temp->pre = node;
-        dummy->next = node;
-
-        node->next = temp;
         node->pre = dummy;
+        node->next = dummy->next;
+        dummy->next->pre = node;
+        dummy->next = node;
         
     }
 
@@ -154,11 +162,11 @@ int main()
     std::vector<std::vector<int>> params = {
         {2},
         {1, 1},
-        {2, 2},
-        {1},
-        {3, 3},
+        {2, 2}, // 2，1 
+        {1},  //1， 2
+        {3, 3},  // 3，1
         {2},
-        {4, 4},
+        {4, 4}, // 4， 3
         {1},
         {3},
         {4}};
@@ -172,11 +180,13 @@ int main()
         }
         else if (input[i] == "put")
         {
+            std::cout << "input put " << params[i][1] << std::endl;
             obj->put(params[i][0], params[i][1]);
         }
         else if (input[i] == "get")
         {
-            std::cout << obj->get(params[i][0]) << std::endl;
+            std::cout << "input get " << params[i][0] << std::endl;
+            std::cout << " 返回" << obj->get(params[i][0]) << std::endl;
         }
         else
         {
