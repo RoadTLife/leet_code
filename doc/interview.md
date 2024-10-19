@@ -1,0 +1,44 @@
+# 数据库方向面试题  
+## 241012 收集面试题 
+### 自我介绍  
+### 项目介绍 
+* 项目中需要提到分布式协议采用了jraft协议，为什么选择jraft？ 
+答：核心原因是我们内部大量实现是基于java语言的，所以在选择的框架的时候采用了jraft, 并且jraft本身是阿里开源的分布式协议，在阿里内部使用了很多年，经过了大规模的测试和验证。(明天在问一下)  * IPC进程间通信（socket）  
+### 面试题 ：
+#### raft 
+介绍一下raft算法 
+答：1、raft算法是一种分布式一致性算法，主要解决分布式中数据的一致性问题。其核心是通过leader选举、日志复制、安全性和日志压缩等机制进行保证的。Raft 是一种 Leader-Based 的 Multi-Paxos 变种，集群中的相关决策都需要leader进行处理，相对paxo，raft的其实现更新详细（比如节点变更）、而且更容易理解，相对的工程化实现更多。  它有三个组成部分第一个leader（接受客户端请求，并向Follower同步请求日志，当日志同步到大多数节点上后告诉Follower提交日志。）、cancadidata（候选者）：即follower状态要进行变更为leader的中间状态，主要leader选举过程。第三个是follower（跟随着）：接受并持久化Leader同步的日志，在Leader告之日志可以提交之后，提交日志。    
+4. read index&amp;read lease read Index 这是raft论文提到的一个优化。核心就是通过heatbeat readIndex 大于 applyIndex，就可以保证正常的读操作。而不将读操作采用类似写操作的流程，从而减少IO和消息通信代价。  
+5. raft - preVote 解决情况： 减少leader election 过程  
+
+#### 存储
+
+*  存储引擎
+  * LSM-Tree
+    * leveldb
+      1. leveldb&amp;rocksdb 
+      2. leveldb读请求优化 
+      3. leveldb迭代器实现 
+      4. leveldb compaction 
+      5. etcd&amp;zookeeper 
+      6. 哈希冲突 
+    * rocksdb
+  * B+树
+  * Hash存储
+
+#### 缓存
+
+#### 查询语言
+
+#### 索引
+
+#### 事务
+
+
+#### 代码题
+12. 带头结点的单链表实现 
+13. 编程题-合并有序链表 （状态：完成） 链接： https://leetcode.cn/problems/merge-two-sorted-lists/ 
+14. 编程题-合并k个有序链表 （状态：完成） 链接： https://leetcode.cn/problems/merge-k-sorted-lists/
+
+#### 反问
+
