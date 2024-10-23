@@ -36,9 +36,18 @@
 
 
 #### 代码题
-12. 带头结点的单链表实现 
-13. 编程题-合并有序链表 （状态：完成） 链接： https://leetcode.cn/problems/merge-two-sorted-lists/ 
-14. 编程题-合并k个有序链表 （状态：完成） 链接： https://leetcode.cn/problems/merge-k-sorted-lists/
+
+* 数组
+  *Two Sum
+  *Best Time to Buy and Sell Stock
+  *Container With Most Water
+
+* 链表 (状态：👌) 
+  * Reverse Linked List (状态：👌) 链接： https://leetcode.cn/problems/reverse-linked-list/description/
+  * Merge Two Sorted Lists (状态：👌)  链接： https://leetcode.cn/problems/merge-two-sorted-lists/ 
+  * Remove Nth Node From End of List   链接：
+  * Merge k Sorted Lists (状态：👌)  链接： https://leetcode.cn/problems/merge-k-sorted-lists/
+
 
 #### 反问
 
