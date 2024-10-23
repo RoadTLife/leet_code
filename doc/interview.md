@@ -45,7 +45,7 @@
 * 链表 (状态：👌) 
   * Reverse Linked List (状态：👌) 链接： https://leetcode.cn/problems/reverse-linked-list/description/
   * Merge Two Sorted Lists (状态：👌)  链接： https://leetcode.cn/problems/merge-two-sorted-lists/ 
-  * Remove Nth Node From End of List   链接：
+  * Remove Nth Node From End of List (状态：👌)  链接：https://leetcode.cn/problems/remove-nth-node-from-end-of-list/
   * Merge k Sorted Lists (状态：👌)  链接： https://leetcode.cn/problems/merge-k-sorted-lists/
 
 
