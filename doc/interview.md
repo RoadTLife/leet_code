@@ -66,10 +66,12 @@
   答：
 
 * 问：MySQL 的可重复读怎么实现的
-  答：
+  答：这个问题只是间接问了mvcc，提一嘴mvcc解决了（RC和RR隔离级别问题）核心还是介绍mvcc和其实现原理就行。
 
 * 问：Repeatable Read 解决了幻读问题吗
-  答：
+  答：介绍一下幻读：用户在读取一定范围数据时，两次读取的数量不一致，导致两次查询结果不一致。幻读情况发生在readview的当前读阶段（current read），普通查询情况下，readview是快照读(snapshot read)的所以看不到新插入的数据，因此幻读产生的情况是readview的当前读。（介绍一下快照读和当前读）,产生幻读的原因是在当前读（current read）行与行之间存在间隙，针对这个情况mysql采用了next-lock解决幻读问题。next-key-lock其实就是record lock和gap lock的结合。record lock是锁定的对象就是记录，而gap lock是锁定的对象与对象之间的间隙（范围），两者组合就和防止数据的增删操作。在RR级别下gap lock才会生效。
+  
+
 
 * 问：请说⼀下数据库锁的种类
   答：锁的种类可用从不同的维度进行分类。
