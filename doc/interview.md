@@ -39,7 +39,7 @@
 
 * 数组
   *Two Sum (状态：👌) 链接：https://leetcode.cn/problems/two-sum/
-  *Best Time to Buy and Sell Stock
+  *Best Time to Buy and Sell Stock (状态：👌)  链接：https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/
   *Container With Most Water
 
 * 链表 (状态：👌) 
